@@ -56,3 +56,9 @@ u32 FUN_FFFF1A9C(u32 index)
 {
     return ((volatile Unk_1000C100 *)0x1000C100)[index].unk00 & 0xF;
 }
+
+// Whether channel index is in state 7. Defined after FUN_FFFF1A9C: its push {lr} has no stack alignment.
+bool FUN_FFFF1BDC(u32 index)
+{
+    return FUN_FFFF1A9C(index) == 7;
+}

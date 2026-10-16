@@ -1,7 +1,10 @@
 // One translation unit with FUN_FFFF3134 (not inlined): armcc then knows it only touches r0 and r1, so
-// FUN_FFFF4760 keeps the structure pointer in r2 and the old value in r3 across the call.
+// FUN_FFFF4760 keeps the structure pointer in r2 and the old value in r3 across the call, and
+// FUN_FFFF3144 keeps its chunk size in r2 and the address of the command block in r3.
 #pragma no_inline
 #include "types.h"
+
+typedef void (*Reader)(u32 address, u32 *dst, u32 size, void *command);
 
 struct Unk_FFFF4760_38
 {
@@ -17,16 +20,21 @@ struct Unk_FFFF4760
     u8 pad00[0x20];
     u32 unk20;
     u32 unk24;
-    u32 unk28;
+    s32 unk28;
     u32 unk2C;
     u8 unk30;
     u8 unk31;
     u8 pad32[6];
     Unk_FFFF4760_38 unk38;
+    u8 pad50[0xF0];
+    Reader unk140;
 };
 
 typedef void (*Handler)();
 
+extern Unk_FFFF4760 DAT_FFF016F0;
+
+extern "C" void FUN_FFFF320C(u32 address, u32 *dst, u32 size, void *command);
 extern "C" void FUN_FFFF35C0(u32 a);
 extern "C" void FUN_FFFF1F38();
 extern "C" void FUN_FFFF21AC(u32 irq, Handler handler);
@@ -43,12 +51,31 @@ u32 FUN_FFFF3134(u32 x)
     return size << (field - 1);
 }
 
+// Interrupt handler that FUN_FFFF4760 installs: one chunk of the transfer is done, so advance the state and start the
+// next chunk with the reader in unk140. FUN_FFFF320C reads into one fixed address, so the destination stays then.
+void FUN_FFFF3144()
+{
+    Unk_FFFF4760 *g = &DAT_FFF016F0;
+    u32 n = g->unk2C;
+    if (g->unk140 != FUN_FFFF320C) {
+        g->unk24 += n;
+    }
+    g->unk20 += n;
+    g->unk28 -= n;
+    if (g->unk28 > 0) {
+        Unk_FFFF4760_38 *s = &g->unk38;
+        g->unk2C = FUN_FFFF3134(*s->unk14);
+        g->unk140(g->unk20, (u32 *)g->unk24, n, s);
+    } else {
+        g->unk30 = 1;
+    }
+}
+
 void FUN_FFFF4760(u32 a, u32 b, u32 c, Unk_FFFF4760 *q)
 {
     Unk_FFFF4760_38 *r = &q->unk38;
     u32 irq = 0x1B;
-    // 0xFFFF3145 is the Thumb function at 0xFFFF3144, which is not in the list yet (no FUN_FFFF3144 to name).
-    Handler handler = (Handler)0xFFFF3145;
+    Handler handler = FUN_FFFF3144;
     u32 x = r->unk08;
     q->unk24 = b;
     q->unk20 = a;
