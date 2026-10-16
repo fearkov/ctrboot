@@ -1,6 +1,3 @@
-// Built for space like FUN_00013878, which it calls: the dump spills the incoming
-// argument words with push {r0-r2, ...} and releases them by popping into r1-r3.
-#pragma Ospace
 #include "types.h"
 
 extern "C" u32 FUN_00013878(u32 dev, u32 reg, u32 value);

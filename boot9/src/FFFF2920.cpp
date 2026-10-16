@@ -1,5 +1,3 @@
-// Built for space: the 8-byte frame comes from pushing r2 and r3 along with r4 and lr.
-#pragma Ospace
 #include "types.h"
 
 struct Unk_FFF00250 {

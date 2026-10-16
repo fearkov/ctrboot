@@ -1,3 +1,5 @@
+// Unlike the rest of the ROM, built for speed: -Ospace gives other code.
+#pragma Otime
 #include "types.h"
 
 struct Unk_10001000 {

@@ -1,6 +1,3 @@
-// Built for space like the other helpers of this ROM: the 16-byte local comes from pushing r0-r3 along with
-// r4-r6 (what -Ospace does; -Otime allocates it with sub sp).
-#pragma Ospace
 #include "types.h"
 
 extern "C" void FUN_FFFF0374(const void *src, void *dst, u32 size);

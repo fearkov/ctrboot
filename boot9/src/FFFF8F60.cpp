@@ -1,5 +1,3 @@
-// Built for space: the outgoing stack arguments are reserved with push {r0-r3, r4, lr} instead of sub sp.
-#pragma Ospace
 #include "types.h"
 
 typedef void (*Unk_Callback)();

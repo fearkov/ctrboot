@@ -1,7 +1,3 @@
-// Built for space (#pragma Ospace): the dump releases the three spilled argument
-// words by popping them into r1-r3 (pop {r1-r7, pc}), where -Otime gives
-// add sp, #12 / pop {r4-r7, pc}.
-#pragma Ospace
 #include "types.h"
 
 extern "C" u32 FUN_0001370C(u32 dev);

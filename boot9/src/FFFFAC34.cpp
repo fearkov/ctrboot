@@ -1,5 +1,3 @@
-// Built for space: with -Otime armcc checks the pointer before push {r4, lr}.
-#pragma Ospace
 #include "types.h"
 
 extern "C" void FUN_FFFFACF8();

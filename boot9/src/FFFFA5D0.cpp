@@ -1,6 +1,3 @@
-// Built for space like the other functions of this ROM: -Otime would push only on the path that calls
-// and return early with bx lr.
-#pragma Ospace
 #include "types.h"
 
 extern "C" void FUN_FFFF96EC();

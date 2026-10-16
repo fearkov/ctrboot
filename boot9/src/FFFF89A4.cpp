@@ -1,5 +1,3 @@
-// Built for space like the other callers of FUN_FFFF1138: only this gives the dump's register assignment.
-#pragma Ospace
 #include "types.h"
 
 struct Unk_FFFFB0D0

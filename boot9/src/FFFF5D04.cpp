@@ -1,7 +1,3 @@
-// Built for space like FUN_FFFF5AA4, whose twin this is (the 8 bytes of outgoing stack arguments are allocated by
-// push {r2-r6, lr}, which -Otime does not do): the same wrapper around FUN_FFFF3784 with the callback at 0xFFFF4474
-// (the twin of FUN_FFFF3EDC) instead of FUN_FFFF3EDC.
-#pragma Ospace
 #include "types.h"
 
 // Thumb entry (bit 0 set) of the callback at 0xFFFF4474, which boot9.functions does not list.

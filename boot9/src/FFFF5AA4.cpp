@@ -1,6 +1,3 @@
-// Built for space like the rest of the SD/MMC code: the 8 bytes of outgoing stack arguments are allocated by
-// pushing r2 and r3 along with r4-r6 (what -Ospace does; -Otime uses sub sp, which also changes the frame size).
-#pragma Ospace
 #include "types.h"
 
 // FUN_FFFF3784 splits the transfer into chunks of at most 0x7FF sectors and calls op(first, last, sector, count, buf)

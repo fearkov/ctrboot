@@ -1,6 +1,3 @@
-// Built for space (#pragma Ospace): with -Otime armcc unrolls the byte loop; the dump
-// has the plain loop.
-#pragma Ospace
 #include "types.h"
 
 struct Unk_00012F1E {

@@ -1,7 +1,3 @@
-// Built for space (armcc's default), like the other one-shot initialisers of this ROM.
-// The two variables are reached as absolute addresses: armcc then reloads the same literal after the call
-// and adds 4 for the second one, as the dump does; a DAT_ symbol is kept in r4 over the calls instead.
-#pragma Ospace
 #include "types.h"
 
 extern "C" void FUN_FFFF19C8(u32 index);

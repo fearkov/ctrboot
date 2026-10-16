@@ -1,7 +1,3 @@
-// Built for space: with -Otime armcc puts the null checks ahead of push {r4, lr}.
-// The destination of the second call is computed into a local first, as the dump does (otherwise the
-// add comes after the two constant arguments).
-#pragma Ospace
 #include "types.h"
 
 extern "C" void FUN_FFFF05E0(const void *src, void *dst, u32 size);

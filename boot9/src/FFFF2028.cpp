@@ -1,5 +1,3 @@
-// Built for space (armcc's default), like the other one-shot initialisers of this ROM.
-#pragma Ospace
 #include "types.h"
 
 struct Unk_10001000 {

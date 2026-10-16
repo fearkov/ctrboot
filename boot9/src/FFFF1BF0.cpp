@@ -1,5 +1,3 @@
-// Built for space (armcc's default): only this gives the dump's order of the stores of the stack arguments.
-#pragma Ospace
 #include "types.h"
 
 struct Unk_FFF01910 {

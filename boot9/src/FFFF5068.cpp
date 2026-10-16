@@ -1,6 +1,3 @@
-// Built for space like the other SD/MMC helpers of this ROM: the 12-byte frame comes from pushing r1-r3
-// (what -Ospace does; -Otime allocates it with sub sp).
-#pragma Ospace
 #include "types.h"
 
 struct Unk_FFFF5068

@@ -1,5 +1,3 @@
-// Built for space: only -Ospace gives this code.
-#pragma Ospace
 #include "types.h"
 
 extern "C" u32 FUN_00011AC4();

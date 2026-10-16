@@ -1,5 +1,3 @@
-// Built for space: only -Ospace gives this code, like its neighbours in this part of boot9.
-#pragma Ospace
 #include "types.h"
 
 struct Unk_FFF016F0_20 {

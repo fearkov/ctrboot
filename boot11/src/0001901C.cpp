@@ -1,8 +1,3 @@
-// Built for space (#pragma Ospace) like the functions around it: with -Otime armcc keeps all
-// three register arguments in registers and spills the result, where the dump reloads the third
-// argument from its slot. __va_start only accepts the va_list type that <stdarg.h> declares: a
-// typedef named va_list, in namespace std.
-#pragma Ospace
 #include "types.h"
 
 namespace std {

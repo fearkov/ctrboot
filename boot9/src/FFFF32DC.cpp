@@ -1,5 +1,3 @@
-// Built for space: the 8-byte local comes from pushing r2 and r3 along with the saved registers.
-#pragma Ospace
 #include "types.h"
 
 extern "C" void *FUN_FFFF25F0(void *dst, const void *src, u32 size);

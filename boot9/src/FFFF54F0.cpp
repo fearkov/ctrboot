@@ -1,6 +1,3 @@
-// Built for space like the rest of the SD/MMC command code: the loop test sits at the bottom and is entered by a
-// branch (-Otime would duplicate the test in front of the loop instead).
-#pragma Ospace
 #include "types.h"
 
 struct Unk_FFF000C0 {

@@ -1,6 +1,3 @@
-// Built for space: armcc then takes the address of the register block again from the literal of
-// DAT_1000A000 + 0x40 (subs #0x40) instead of adding a literal for DAT_1000A000.
-#pragma Ospace
 #include "types.h"
 
 extern "C" void FUN_FFFF05E0(const void *src, void *dst, u32 size);

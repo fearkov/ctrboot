@@ -1,6 +1,3 @@
-// Built for space like the rest of the SD/MMC code, as FUN_FFFF5AA4 which has the same shape: the 8 bytes of outgoing
-// stack arguments are allocated by pushing r2 and r3 along with r4-r6 (what -Ospace does; -Otime uses sub sp).
-#pragma Ospace
 #include "types.h"
 
 // The callback is not in boot9.functions (it takes the same five arguments as FUN_FFFF3EDC): it is reached by its

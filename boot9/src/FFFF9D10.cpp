@@ -1,5 +1,3 @@
-// Built for space, like the rest of this ROM's crypto drivers.
-#pragma Ospace
 #include "types.h"
 
 // Copies size bytes from src to dst in reverse order.

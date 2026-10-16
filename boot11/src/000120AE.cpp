@@ -1,6 +1,5 @@
 // The wait loop is laid out as "b test / body / test: beq body", the way armcc does it when
 // building for space; with -Otime it puts the test in front of the body and jumps back.
-#pragma Ospace
 #include "types.h"
 
 extern "C" u32 FUN_00012564();

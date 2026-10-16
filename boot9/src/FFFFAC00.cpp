@@ -1,6 +1,3 @@
-// Built for space: room for the 12 bytes of outgoing stack arguments comes from pushing r1-r3 along
-// with r4 and r5 (-Otime allocates it with sub sp and checks the pointer before the push).
-#pragma Ospace
 #include "types.h"
 
 extern "C" void FUN_FFFF8A00(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);

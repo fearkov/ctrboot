@@ -1,6 +1,5 @@
 // The dump gets its 16-byte local by pushing r0-r3 along with r4 and lr; with -Otime armcc
 // uses push {lr} / sub sp instead. That frame only comes out when building for space.
-#pragma Ospace
 #include "types.h"
 
 extern "C" u32 FUN_00012564();

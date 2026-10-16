@@ -1,5 +1,3 @@
-// Built for space: only -Ospace gives this code.
-#pragma Ospace
 #include "types.h"
 
 struct Unk_1FFE8020 {

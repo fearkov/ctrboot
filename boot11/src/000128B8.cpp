@@ -1,7 +1,3 @@
-// The dump returns with pop {r4, pc} after push {r4, lr}. With -Otime armcc gives
-// push {r4} / bx lr for this body; with #pragma Ospace it gives the dump's shape,
-// so the function was probably built for space.
-#pragma Ospace
 #include "types.h"
 
 struct Unk_17E00600 {

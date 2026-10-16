@@ -1,6 +1,3 @@
-// Built for space: the function returns with pop {r4, pc} (what -Ospace does; -Otime saves only r4 and ends with
-// pop {r4} and bx lr).
-#pragma Ospace
 #include "types.h"
 
 struct Unk_FFF0064C

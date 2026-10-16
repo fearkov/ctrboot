@@ -1,6 +1,4 @@
-// boot9 is built with armcc's default options (-O2 -Ospace, no automatic inlining).
 #pragma O2
-#pragma Ospace
 #pragma no_inline
 #include "types.h"
 

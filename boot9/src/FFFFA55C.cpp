@@ -1,6 +1,3 @@
-// Built for space (armcc's default for this ROM): with -Otime the arguments are kept in r4-r6 in parameter
-// order (out in r4); the original has out in r6 and the other two in r4 and r5.
-#pragma Ospace
 #include "types.h"
 
 extern "C" void FUN_FFFFACF8();

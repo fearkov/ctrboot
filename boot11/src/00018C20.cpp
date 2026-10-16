@@ -1,6 +1,3 @@
-// Test: the dump returns with pop {r4, pc} (push {r4, lr}), the shape armcc
-// gives leaf code built for space. -Otime would use push {r4} / bx lr.
-#pragma Ospace
 #include "types.h"
 
 extern u32 DAT_1FFE8130[];

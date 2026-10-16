@@ -22,6 +22,8 @@ WIBO := /path/to/wibo
 
 The ROMs come out of RVCT 4.0: the functions matched so far build the same with its builds 771, 821, 865 and 902, and with ARM Compiler 4.1 build 561, but not with later 4.1 builds. Which build Nintendo used is still being worked out. A ROM can use another toolchain with `<rom>_ARMCC_DIR`.
 
+Both ROMs are built for space, `-O3 -Ospace`: of the functions matched so far, only two come out right for speed, and say so with `#pragma Otime`.
+
 ## Images
 
 The build needs your own boot ROMs: the functions that have no source yet, and all the data, are taken from them. Dump them from your console, with GodMode9 (the `[M:]` drive) or boot9strap (which writes them to `/boot9strap/` on the SD card), then:

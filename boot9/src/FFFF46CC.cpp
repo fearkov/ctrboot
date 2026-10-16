@@ -1,6 +1,3 @@
-// Built for space, like FUN_FFFF490A: -Otime rotates the loop with a guard in front of it instead
-// of jumping into its test.
-#pragma Ospace
 #include "types.h"
 
 struct Unk_FFF01728 {

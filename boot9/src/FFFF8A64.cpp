@@ -1,5 +1,3 @@
-// Built for space, like FUN_FFFF3EB8: -Otime would end the function with pop {r4, r5} and bx lr.
-#pragma Ospace
 #include "types.h"
 
 struct Unk_10009000 {

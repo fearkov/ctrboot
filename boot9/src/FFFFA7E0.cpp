@@ -1,5 +1,3 @@
-// Built for space like the other loops of this ROM: the loop test sits at the bottom and is entered by a branch.
-#pragma Ospace
 #include "types.h"
 
 u8 *FUN_FFFFA7E0(u8 *p, s32 len)

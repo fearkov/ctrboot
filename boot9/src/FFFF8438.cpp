@@ -1,6 +1,3 @@
-// Built for space: the 12-byte frame is released by popping r1-r3 along with r4-r7 and pc (what -Ospace does;
-// -Otime ends with add sp, #0xc and a smaller pop).
-#pragma Ospace
 #include "types.h"
 
 struct Unk_FFFF8438
