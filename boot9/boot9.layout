@@ -1,0 +1,2 @@
+# Where the ROM is linked: name, address, offset in the image, size.
+rom      FFFF0000 000000 010000

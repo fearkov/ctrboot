@@ -1,0 +1,2 @@
+# Where the ROM is linked (its mirror at 0x10000): name, address, offset in the image, size.
+rom      00010000 000000 010000

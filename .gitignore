@@ -1,0 +1,7 @@
+build/
+*/image/
+mk/local.mk
+__pycache__/
+*.o
+*.elf
+*.bin
