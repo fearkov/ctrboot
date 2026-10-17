@@ -32,6 +32,10 @@ extern "C" u64 FUN_FFFF1F70();
 extern "C" void FUN_FFFF17C8(Unk_FFFF17C8 *alarm, u64 fire);
 extern "C" void FUN_FFFF1964(Unk_FFFF17C8 *alarm);
 
+// The interrupt handler of the alarm timer (timer 1, IRQ 9). It stops the timer and, if the first alarm of the list is
+// due, takes it off the list, calls its callback and puts a periodic alarm back; then it arms the timer for the alarm
+// that is now first. The two calls to FUN_FFFF1964 are written out: the second reads the list head again, which keeps
+// the first call on the pointer already in a register.
 void FUN_FFFF1554()
 {
     FUN_FFFF1F10(9);
