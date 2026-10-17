@@ -1,5 +1,6 @@
 #include "types.h"
 
+// One entry of the table at DAT_FFF01990 (0x2C bytes each): how a DMA channel moves data, as FUN_FFFF1CB4 sets it.
 struct Unk_FFF01990 {
     u8 pad00[2];
     u8 ccr[4];
@@ -26,6 +27,9 @@ struct Unk_FFF01990 {
 
 extern Unk_FFF01990 DAT_FFF01990[];
 
+// Gives the four channels their default settings: bursts of one 8-byte beat each way, worked out as FUN_FFFF1CB4 does.
+// The larger burst is chosen the same way too: armcc folds the comparison but loads unk0C again, as the image does, and
+// with that expression the registers holding 0 and 8 come out as in the image.
 void FUN_FFFF1B58()
 {
     for (s32 i = 0; i < 4; i++) {

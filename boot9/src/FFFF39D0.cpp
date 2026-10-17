@@ -24,6 +24,9 @@ extern "C" u32 FUN_FFFFAD58();
 extern "C" u32 FUN_FFFFAD68();
 extern "C" void FUN_FFFF0540(volatile u32 *src, void *dst);
 
+// FIFO callback for one 512-byte block: feeds the card FIFO into the AES write FIFO, moves AES output into the
+// SHA input FIFO 16 bytes at a time and copies each finished 64-byte chunk from there to the destination buffer.
+// Gives up with 0x10000 after 0x1298A8 rounds; on success advances the destination by the block size.
 u32 FUN_FFFF39D0(volatile u32 *fifo)
 {
     u32 left;

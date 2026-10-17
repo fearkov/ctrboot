@@ -28,7 +28,11 @@ extern "C" void FUN_FFFFAD88();
 extern "C" void FUN_FFFFADA0();
 extern "C" void FUN_FFFF8A00(u32 mode, u32 a, u32 b, u32 blkcnt, u32 blklen, u32 c, u32 d);
 
-u32 FUN_FFFF3FA0(u32 fifo)
+// FIFO callback installed by FUN_FFFF3EDC for a read through AES and SHA: fails with 0x20000 if one of the three
+// NDMA channels is still busy, 0x80000 if AES is busy and 0x100000 if SHA is busy; otherwise chains the channels
+// (controller FIFO into the AES input FIFO, AES output FIFO into the SHA FIFO, SHA FIFO into the buffer) and starts
+// AES on the whole transfer.
+u32 FUN_FFFF3FA0(volatile u32 *fifo)
 {
     if (FUN_FFFF1BA8(DAT_FFF00150) != 0) {
         return 0x20000;
@@ -58,7 +62,7 @@ u32 FUN_FFFF3FA0(u32 fifo)
     FUN_FFFF1C94(DAT_FFF00150, 0, 0);
     FUN_FFFF1C84(DAT_FFF00150, 0x30000);
     FUN_FFFF1CA4(DAT_FFF00150, 8);
-    FUN_FFFF1BF0(DAT_FFF00150, fifo, 0x10009008, DAT_FFF001A8.unk8, 0, 0, 0x0F000008);
+    FUN_FFFF1BF0(DAT_FFF00150, (u32)fifo, 0x10009008, DAT_FFF001A8.unk8, 0, 0, 0x0F000008);
     FUN_FFFFACC8();
     FUN_FFFFACAC(0x404);
     if (DAT_FFF001A8.unk0) {
