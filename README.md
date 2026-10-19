@@ -5,7 +5,7 @@ Source for the Nintendo 3DS boot ROMs, boot9 and boot11, rebuilt with the origin
 | | ROM | Runs on | Matching |
 |---|---|---|---|
 | `boot9` | boot9 | ARM9 | 461 / 589 |
-| `boot11` | boot11 | ARM11 | 189 / 287 |
+| `boot11` | boot11 | ARM11 | 201 / 287 |
 
 The function counts come from a first static analysis and will move as function boundaries are fixed.
 
