@@ -4,7 +4,7 @@ extern "C" u64 FUN_00011DFC(u64 a, u32 b);
 extern "C" u64 FUN_00012F4C(u64 dividend, u64 divisor);
 extern "C" void FUN_00011A38(u32 count);
 
-// Nanoseconds to cycles of the 267.088 MHz ARM11. An inline function: written in place, the two halves of the time
+// Nanoseconds to cycles of the 268.112 MHz ARM11. An inline function: written in place, the two halves of the time
 // swap registers.
 static inline u64 ToCycles(u64 ns)
 {
