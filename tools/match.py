@@ -124,13 +124,23 @@ def build_and_compare(program, sources, work, args):
             if section != f"i.{symbol}":
                 print(f"{source}: {symbol} is in section {section}, not i.{symbol}: build with --split_sections")
                 return 1
+            # a helper armcc writes into every object that uses it: armlink keeps one
+            listed = program.by_runtime.get(symbol)
+            if listed is not None:
+                if listed.thumb != thumb:
+                    print(f"{source}: {symbol} built as {'Thumb' if thumb else 'ARM'}, "
+                          f"the function at 0x{listed.address:08X} is {'Thumb' if listed.thumb else 'ARM'}")
+                    return 1
+                built.setdefault(listed.address, (symbol, size, thumb, source))
+                continue
             m = ADDRESS_IN_NAME.search(symbol)
             if symbol.startswith("FUN_"):
                 print(f"{source}: {symbol} is defined extern \"C\": define it as C++, extern \"C\" "
                       f"FUN_<address> is how other code calls it")
                 return 1
             if not m:
-                print(f"{source}: {symbol} has no FUN_<address> in its name, so it has no place")
+                print(f"{source}: {symbol} has no FUN_<address> in its name, and no function in the list is the "
+                      f"runtime function of that name, so it has no place")
                 return 1
             address = int(m.group(1), 16)
             listed = program.by_address.get(address)
@@ -154,11 +164,12 @@ def build_and_compare(program, sources, work, args):
     # the lists for this link: only these functions have source
     lines = []
     for f in program.functions:
+        runtime = f" {','.join(f.runtime)}" if f.runtime else ""
         if f.address in built:
             symbol, size, thumb, _ = built[f.address]
-            lines.append(f"{f.address:08X} {size} {'thumb' if thumb else 'arm'} {symbol}")
+            lines.append(f"{f.address:08X} {size} {'thumb' if thumb else 'arm'} {symbol}{runtime}")
         else:
-            lines.append(f"{f.address:08X} {f.size} {'thumb' if f.thumb else 'arm'} FUN_{f.address:08X}")
+            lines.append(f"{f.address:08X} {f.size} {'thumb' if f.thumb else 'arm'} FUN_{f.address:08X}{runtime}")
     functions_list = os.path.join(work, f"{name}.functions")
     open(functions_list, "w").write("\n".join(lines) + "\n")
     layout = os.path.join(name, f"{name}.layout")
@@ -184,13 +195,17 @@ def build_and_compare(program, sources, work, args):
     run(wibo + [f"{bin_dir}/armasm.exe", "-o", gaps_o, gaps_s], "assembling the gaps")
 
     # every function as FUN_<address>, as in the full build; the functions other
-    # sources match, taken from the image here, under their names; and the data
-    # the sources name
+    # sources match, taken from the image here, under their names; the runtime
+    # functions under theirs, but for the helpers these sources bring; and the
+    # data the sources name
     symdefs = ["#<SYMDEFS># ctrboot: match.py"]
     for f in program.functions:
-        symdefs.append(f"0x{f.address:08X} {'T' if f.thumb else 'A'} FUN_{f.address:08X}")
+        kind = "T" if f.thumb else "A"
+        names = [f"FUN_{f.address:08X}"]
         if f.address not in built and f.has_source:
-            symdefs.append(f"0x{f.address:08X} {'T' if f.thumb else 'A'} {f.name}")
+            names.append(f.name)
+        names += [r for r in f.runtime if r not in names and built.get(f.address, ("",))[0] != r]
+        symdefs += [f"0x{f.address:08X} {kind} {n}" for n in names]
     texts = []
     include = os.path.join(ROOT, name, "include")
     headers = [os.path.join(d, n) for d, _, ns in os.walk(include) for n in ns if n.endswith(".h")]

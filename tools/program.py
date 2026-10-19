@@ -13,11 +13,13 @@ ADDRESS_IN_NAME = re.compile(r"FUN_([0-9A-F]{8})")
 
 
 class Function:
-    def __init__(self, address, size, thumb, name):
+    def __init__(self, address, size, thumb, name, runtime=()):
         self.address = address
         self.size = size
         self.thumb = thumb
         self.name = name
+        # the names compiled code calls a runtime function by (a fifth column)
+        self.runtime = tuple(runtime)
 
     @property
     def end(self):
@@ -38,11 +40,13 @@ class Program:
             self.parts.append((part, int(base, 16), int(offset, 16), int(size, 16)))
         self.functions = []
         for fields in _lines(functions_path or os.path.join(self.dir, f"{name}.functions")):
-            address, size, state, symbol = fields
-            self.functions.append(Function(int(address, 16), int(size), state == "thumb", symbol))
+            address, size, state, symbol = fields[:4]
+            runtime = fields[4].split(",") if len(fields) > 4 else ()
+            self.functions.append(Function(int(address, 16), int(size), state == "thumb", symbol, runtime))
         self.functions.sort(key=lambda f: f.address)
         self.starts = [f.address for f in self.functions]
         self.by_address = {f.address: f for f in self.functions}
+        self.by_runtime = {r: f for f in self.functions for r in f.runtime}
         self._image = None
 
     @property

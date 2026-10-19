@@ -5,8 +5,9 @@ usage: names.py [<program>...]
 
 Compiles each program's sources and, in <program>.functions, gives every
 function a source defines its name from the object (the name holds
-FUN_<address>, which places it), and every other function back its
-FUN_<address>. Then counts what has source into the table in README.md.
+FUN_<address>, which places it), a runtime helper that armcc writes into the
+objects that use it the name the list's fifth column gives it, and every other
+function back its FUN_<address>. Then counts what has source into the table in README.md.
 Run it after adding or renaming functions, then make check.
 """
 import os
@@ -40,6 +41,10 @@ def update(name):
     names = {}
     for source, obj in zip(sources, objects):
         for symbol, size, thumb, section in elf_functions(os.path.join(ROOT, obj)):
+            # a helper armcc writes into every object that uses it, listed under its name
+            if symbol in program.by_runtime:
+                names[program.by_runtime[symbol].address] = symbol
+                continue
             m = ADDRESS_IN_NAME.search(symbol)
             if not m or symbol.startswith("FUN_"):
                 print(f"{name}: {source}: {symbol} has no place (see tools/match.py)")
@@ -59,10 +64,10 @@ def update(name):
     for i, line in enumerate(lines):
         if line.startswith("#") or not line.strip():
             continue
-        address, size, state, symbol = line.split()
+        address, size, state, symbol, *runtime = line.split()
         wanted = names.get(int(address, 16), f"FUN_{address}")
         if wanted != symbol:
-            lines[i] = f"{address} {size} {state} {wanted}"
+            lines[i] = " ".join([address, size, state, wanted] + runtime)
             changed += 1
     open(path, "w").write("\n".join(lines))
     print(f"{name}: {len(names)} of {len(program.functions)} functions have source, {changed} names changed")

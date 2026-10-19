@@ -6,7 +6,8 @@
 # out=scatter    the scatter file: a load region per part of the layout
 # out=gaps       one line per gap: address, offset in the image, size
 # out=symdefs    every function as FUN_<address>, so that code can call any of
-#                them, with source or not, as extern "C" FUN_<address>
+#                them, with source or not, as extern "C" FUN_<address>; and a
+#                runtime function under the names compiled code calls it by
 # out=placement  with the linker's map as a third file: the functions that did
 #                not land at their address
 # out=where      with the output of cmp -l as a third file: where the first
@@ -69,15 +70,21 @@ function selector(piece) {
 FNR == 1 { file++ }
 /^#/ || NF == 0 { next }
 file == 1 { part[++parts] = $1; base[parts] = hex($2); offset[parts] = hex($3); size[parts] = hex($4); next }
-file == 2 { address[++functions] = hex($1); length_[functions] = $2; state[functions] = $3; name[functions] = $4; next }
+file == 2 { address[++functions] = hex($1); length_[functions] = $2; state[functions] = $3; name[functions] = $4; runtime[functions] = $5; next }
 file == 3 && out == "where" { differing[++differences] = $1; next }
 file == 3 && out == "placement" && $(NF - 1) ~ /^i\./ { placed[substr($(NF - 1), 3)] = toupper(substr($1, 3)); next }
 
 END {
     if (out == "symdefs") {
         print "#<SYMDEFS># ctrboot: every function as FUN_<address>"
-        for (i = 1; i <= functions; i++)
+        for (i = 1; i <= functions; i++) {
             printf "0x%s %s FUN_%s\n", tohex(address[i]), state[i] == "thumb" ? "T" : "A", tohex(address[i])
+            # unless a source's object brings it under that name
+            n = split(runtime[i], also, ",")
+            for (k = 1; k <= n; k++)
+                if (also[k] != name[i])
+                    printf "0x%s %s %s\n", tohex(address[i]), state[i] == "thumb" ? "T" : "A", also[k]
+        }
         exit
     }
     if (out == "placement") {
