@@ -1,3 +1,5 @@
+// Enables interrupt irq and returns whether it already was. The read goes through a pointer and the write names the
+// array again: that is what makes armcc load the address late, where the dump does.
 #include "types.h"
 
 extern "C" u32 FUN_00011AC4();

@@ -1,3 +1,7 @@
+// Initializes the tick counter (the timer 0 interrupt, IRQ 0x1D, handled by FUN_00012048) once: zeroes the 64-bit
+// count, starts the timer, snapshots the performance monitor counters on core 0 and enables the interrupt.
+// The counters are reached through a pointer taken before the call that tests the core: that makes armcc load the
+// address first, where the dump does.
 #include "types.h"
 
 struct Unk_1FFE80D0 {
