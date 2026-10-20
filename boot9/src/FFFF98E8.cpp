@@ -17,7 +17,6 @@ extern u8 DAT_1FFFD000[0x1000];
 
 extern "C" void FUN_FFFF03F0(const void *src, void *dst, u32 size);
 extern "C" void *FUN_FFFF25F0(void *dst, const void *src, u32 size);
-extern "C" __pure u64 FUN_FFFF25D8(u64 a, u64 b);
 
 // The multiplier (0x5D588B656C078965) and the increment (0x269EC3) of the 64-bit generator, as little-endian bytes.
 // armcc stores the increment's literal as the tail of the multiplier's, so each constant takes exactly 8 bytes.
@@ -48,7 +47,7 @@ void FUN_FFFF98E8()
         FUN_FFFF25F0(&mul, LCG_MUL, 8);
         FUN_FFFF25F0(&add, LCG_ADD, 8);
         for (int i = 0; i < sizeof(*key) / 4; i++) {
-            state = FUN_FFFF25D8(mul, state) + add;
+            state = mul * state + add;
             out[i] = state >> 32;
         }
     }

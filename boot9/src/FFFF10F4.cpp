@@ -7,7 +7,6 @@ struct Unk_FFF01990 {
 };
 
 extern Unk_FFF01990 DAT_FFF01990[];
-extern "C" u32 FUN_FFFF2904(u32 numerator, u32 denominator);
 
 // The largest part of a transfer of size bytes in units of unit bytes that one
 // DMA program from FUN_FFFF0CF4 can move on channel index.
@@ -15,8 +14,8 @@ u32 FUN_FFFF10F4(s32 index, u32 unit, u32 size)
 {
     u32 width = DAT_FFF01990[index].unk14;
     u32 max = unit << 8;
-    u32 outer = FUN_FFFF2904(unit - 1, width);
-    u32 count = FUN_FFFF2904(size - 1, unit);
+    u32 outer = (unit - 1) / width;
+    u32 count = (size - 1) / unit;
     u32 high = outer ? 0 : count >> 8;
     if (high) {
         size &= ~(max - 1);

@@ -6,7 +6,6 @@ extern u32 (*DAT_FFF000AC)(volatile u16 *fifo);
 extern u32 DAT_FFF000B4;
 extern u32 DAT_FFF000B8;
 
-extern "C" u32 FUN_FFFF2904(u32 numerator, u32 denominator);
 extern "C" void FUN_FFFF2920(u32 time);
 extern "C" u16 FUN_FFFF4974(u32 unit);
 extern "C" bool FUN_FFFF4C8C(u32 unit);
@@ -23,9 +22,9 @@ void FUN_FFFF4FE8(u32 time)
         u32 elapsed = DAT_FFF000B4 - now;
         u32 limit;
         if (DAT_FFF0009D) {
-            limit = FUN_FFFF2904(time - 500, 150);
+            limit = (time - 500) / 150;
         } else {
-            limit = FUN_FFFF2904(time - 500, 300);
+            limit = (time - 500) / 300;
         }
         if (elapsed >= limit) {
             DAT_FFF000B4 = now;

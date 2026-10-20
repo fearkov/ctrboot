@@ -22,10 +22,6 @@ extern Unk_FFF00140 DAT_FFF00140;
 
 extern "C" void *FUN_FFFF25F0(void *dst, const void *src, u32 size);
 extern "C" u64 FUN_FFFF1F70();
-// The C library's 64-bit division and multiplication. They are __pure, as armcc knows its own helpers to be: the
-// period is then loaded once for both, as in the dump.
-extern "C" __pure u64 FUN_FFFF22E8(u64 dividend, u64 divisor);
-extern "C" __pure u64 FUN_FFFF25D8(u64 a, u64 b);
 extern "C" void FUN_FFFF1964(Unk_FFFF17C8 *alarm);
 
 void FUN_FFFF17C8(Unk_FFFF17C8 *alarm, u64 fire)
@@ -34,7 +30,7 @@ void FUN_FFFF17C8(Unk_FFFF17C8 *alarm, u64 fire)
         u64 now = FUN_FFFF1F70();
         FUN_FFFF25F0(&fire, &alarm->unk28, 8);
         if (alarm->unk28 < now) {
-            fire += FUN_FFFF25D8(FUN_FFFF22E8(now - alarm->unk28, alarm->unk20) + 1, alarm->unk20);
+            fire += ((now - alarm->unk28) / alarm->unk20 + 1) * alarm->unk20;
         }
     }
     FUN_FFFF25F0(&alarm->unk10, &fire, 8);
