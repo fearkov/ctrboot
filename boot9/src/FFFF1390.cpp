@@ -1,6 +1,8 @@
 // One translation unit with FUN_FFFF1A9C (defined after its callers, as in the ROM, and never inlined): armcc then
 // knows that it only touches r0 and r1, so FUN_FFFF1390 hands its fourth argument on in r3, and FUN_FFFF14EC keeps
-// the entry pointer in r2 and its fourth argument in r3, across the calls.
+// the entry pointer in r2 and its fourth argument in r3, across the calls. The small callers defined after it
+// (FUN_FFFF1BBC, FUN_FFFF1BDC, FUN_FFFF1E10) push only lr, with no stack alignment, and FUN_FFFF1E10 keeps its
+// argument in r2.
 #include "types.h"
 
 // One entry of the table at DAT_FFF01990 (0x2C bytes each): how a DMA channel moves data.
@@ -57,8 +59,21 @@ u32 FUN_FFFF1A9C(u32 index)
     return ((volatile Unk_1000C100 *)0x1000C100)[index].unk00 & 0xF;
 }
 
-// Whether channel index is in state 7. Defined after FUN_FFFF1A9C: its push {lr} has no stack alignment.
+// Whether channel index is busy (not stopped).
+bool FUN_FFFF1BBC(u32 index)
+{
+    return FUN_FFFF1A9C(index) != 0;
+}
+
+// Whether channel index is in state 7.
 bool FUN_FFFF1BDC(u32 index)
 {
     return FUN_FFFF1A9C(index) == 7;
+}
+
+// Waits until channel index is stopped.
+void FUN_FFFF1E10(u32 index)
+{
+    while (FUN_FFFF1A9C(index) != 0) {
+    }
 }
