@@ -35,9 +35,11 @@ $$($(1)_OUT)/gaps.o: $$($(1)_LISTS) $$($(1)_IMAGE) mk/link.awk
 	done > $$($(1)_OUT)/gaps.s; echo '    END' >> $$($(1)_OUT)/gaps.s
 	$$($(1)_TOOLS)/armasm.exe -o $$@ $$($(1)_OUT)/gaps.s
 
-$$($(1)_OUT)/$(1).scat: $$($(1)_LISTS) mk/link.awk
+# with a region for each section of RAM variables the sources define
+$$($(1)_OUT)/$(1).scat: $$($(1)_LISTS) mk/link.awk $$($(1)_SRCS)
 	@mkdir -p $$(@D)
-	awk -v out=scatter -f mk/link.awk $$($(1)_LISTS) > $$@
+	{ awk -v out=scatter -f mk/link.awk $$($(1)_LISTS); \
+	awk -v out=sections -f mk/link.awk /dev/null $$($(1)_SRCS); } > $$@
 
 # the functions without source, and every DAT_<address> the sources name
 $$($(1)_OUT)/$(1).sym: $$($(1)_LISTS) mk/link.awk $$($(1)_SRCS) $$($(1)_HEADERS)

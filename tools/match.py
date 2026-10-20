@@ -176,7 +176,9 @@ def build_and_compare(program, sources, work, args):
     lists = [layout, functions_list]
 
     scatter = os.path.join(work, f"{name}.scat")
-    open(scatter, "w").write(run(["awk", "-v", "out=scatter", "-f", "mk/link.awk"] + lists, "the scatter file"))
+    open(scatter, "w").write(run(["awk", "-v", "out=scatter", "-f", "mk/link.awk"] + lists, "the scatter file")
+                             + run(["awk", "-v", "out=sections", "-f", "mk/link.awk", "/dev/null"] + sources,
+                                   "the RAM variables' regions"))
 
     gaps_dir = os.path.join(work, "gaps")
     os.makedirs(gaps_dir)

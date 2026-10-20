@@ -12,6 +12,10 @@
 #                not land at their address
 # out=where      with the output of cmp -l as a third file: where the first
 #                differences are
+# out=sections   with the sources as the files: a load region outside the
+#                image for each section of RAM variables a source names
+#                data.<address> or bss.<address> (#pragma arm section), at
+#                that address
 #
 # armlink starts an execution region only at a multiple of 4, so a region
 # starts at every piece that starts at one. A Thumb function at 2 past a
@@ -67,6 +71,16 @@ function selector(piece) {
     return kind_[piece] == "gap" ? "gap." tohex(at_[piece]) : "i." name_[piece]
 }
 
+out == "sections" {
+    if ($0 ~ /^#pragma arm section/) {
+        line = $0
+        while (match(line, /"(data|bss)\.[0-9A-F]+"/)) {
+            ram[substr(line, RSTART + 1, RLENGTH - 2)] = 1
+            line = substr(line, RSTART + RLENGTH)
+        }
+    }
+    next
+}
 FNR == 1 { file++ }
 /^#/ || NF == 0 { next }
 file == 1 { part[++parts] = $1; base[parts] = hex($2); offset[parts] = hex($3); size[parts] = hex($4); next }
@@ -75,6 +89,13 @@ file == 3 && out == "where" { differing[++differences] = $1; next }
 file == 3 && out == "placement" && $(NF - 1) ~ /^i\./ { placed[substr($(NF - 1), 3)] = toupper(substr($1, 3)); next }
 
 END {
+    if (out == "sections") {
+        for (name in ram) {
+            split(name, at, ".")
+            printf "LR_%s_%s 0x%s {\n  %s_%s 0x%s { * (%s) }\n}\n", at[1], at[2], at[2], at[1], at[2], at[2], name
+        }
+        exit
+    }
     if (out == "symdefs") {
         print "#<SYMDEFS># ctrboot: every function as FUN_<address>"
         for (i = 1; i <= functions; i++) {
