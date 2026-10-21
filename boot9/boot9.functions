@@ -1,14 +1,14 @@
 # boot9's functions: address, size in bytes with literal pools, arm or thumb, name; and for a runtime
 # function, the names compiled code calls it by. FUN_<address> has no source yet. From a static analysis;
 # sizes may still be off.
-FFFF0000 4 arm FUN_FFFF0000
-FFFF0004 4 arm FUN_FFFF0004
-FFFF0008 4 arm FUN_FFFF0008
-FFFF000C 4 arm FUN_FFFF000C
-FFFF0010 4 arm FUN_FFFF0010
-FFFF0014 4 arm FUN_FFFF0014
-FFFF0018 4 arm FUN_FFFF0018
-FFFF001C 4 arm FUN_FFFF001C
+FFFF0000 4 arm _Z12FUN_FFFF0000v
+FFFF0004 4 arm _Z12FUN_FFFF0004v
+FFFF0008 4 arm _Z12FUN_FFFF0008v
+FFFF000C 4 arm _Z12FUN_FFFF000Cv
+FFFF0010 4 arm _Z12FUN_FFFF0010v
+FFFF0014 4 arm _Z12FUN_FFFF0014v
+FFFF0018 4 arm _Z12FUN_FFFF0018v
+FFFF001C 4 arm _Z12FUN_FFFF001Cv
 FFFF0030 4 arm _Z12FUN_FFFF0030v
 FFFF0034 4 arm _Z12FUN_FFFF0034v
 FFFF0038 64 arm FUN_FFFF0038
